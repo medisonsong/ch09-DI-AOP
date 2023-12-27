@@ -9,7 +9,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	<!-- 객체 생성을 위한 설정 (Spring Container에 생성된 객체 보관) -->
 	<!-- 
-		name : 빈(bean) 객체를 식별할 때 사용할 이름
+		name(=id) : 빈(bean) 객체를 식별할 때 사용할 이름
 		class : 빈 객체를 생성할 때 사용할 클래스
 	 -->
 	 <bean name="messageBean" class="kr.spring.ch01.MessageBean"/>

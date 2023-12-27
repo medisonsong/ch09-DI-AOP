@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- DI 프로퍼티 설정방식 -->
+	<bean name="registerService" class="kr.spring.ch07.RegisterService">
+		<!-- set registerDAO에 전달해야함 -->
+		<!-- name : 의존 객체를 주입할 때 사용할 설정 메서드의 프로퍼티 이름 -->
+		<property name="registerDAO"><!-- private RegisterDAO registerDAO; 의 뒷부분 명시 (근데 접근은 public만 가능하므로 아래에 넣음) -->
+			<!-- ref : 주입할 의존 객체 지정 -->
+			<ref bean="registerDAO"/>
+		</property> 
+	</bean>
+	<bean name="registerDAO" class="kr.spring.ch07.RegisterDAO"/>
+	
+	<!-- DI 프로퍼티 설정방식 - 여러 개의 프로퍼티 -->
+	<bean id="work" class="kr.spring.ch08.WorkController">
+		<property name="periodTime">
+			<value>10</value>
+		</property>
+		<property name="email"> <!-- 프로퍼티명 -->
+			<ref bean="email"/> <!-- 식별자 -->
+		</property>
+	</bean>
+	<bean id="email" class="kr.spring.ch08.EmailSender"/> <!-- 식별자 -->
+	
+	<!-- XML 네임스페이스를 이용한 프로퍼티 설정 -->
+	<bean id="upload" class="kr.spring.ch09.UploadController"
+		p:timeout="50" p:image-ref="image"/> <!-- p: property의 약자 -->
+	<!-- 일반 데이터 넘길 시 timeout // 객체 전달 시 -ref를 사용, 객체 전달이라는걸 알려줘야함 -->
+	<bean id="image" class="kr.spring.ch09.ImageSender"/>
+	
+</beans>
