@@ -8,6 +8,7 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 	
+	
 	<!-- DI 프로퍼티 설정방식 -->
 	<bean name="registerService" class="kr.spring.ch07.RegisterService">
 		<!-- set registerDAO에 전달해야함 -->
@@ -18,6 +19,7 @@
 		</property> 
 	</bean>
 	<bean name="registerDAO" class="kr.spring.ch07.RegisterDAO"/>
+	
 	
 	<!-- DI 프로퍼티 설정방식 - 여러 개의 프로퍼티 -->
 	<bean id="work" class="kr.spring.ch08.WorkController">
@@ -30,10 +32,68 @@
 	</bean>
 	<bean id="email" class="kr.spring.ch08.EmailSender"/> <!-- 식별자 -->
 	
+	
 	<!-- XML 네임스페이스를 이용한 프로퍼티 설정 -->
 	<bean id="upload" class="kr.spring.ch09.UploadController"
 		p:timeout="50" p:image-ref="image"/> <!-- p: property의 약자 -->
 	<!-- 일반 데이터 넘길 시 timeout // 객체 전달 시 -ref를 사용, 객체 전달이라는걸 알려줘야함 -->
 	<bean id="image" class="kr.spring.ch09.ImageSender"/>
+	
+	
+	
+	<!-- 컬렉션 타입의 프로퍼티 설정 -->
+	<!-- List타입 프로퍼티 설정 -->
+	<bean id="performanceMonitor" class="kr.spring.ch10.PerformanceMonitor">
+		<property name="deviations">
+			<list value-type="java.lang.Double"> <!-- 타입 명시 가능 (안해도됨) -->
+				<value>0.2</value>
+				<value>0.3</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+
+	<!-- Map타입 프로퍼티 설정 -->
+	<bean name="protocolHandlerFactory" class="kr.spring.ch11.ProtocolHandlerFactory">
+      <property name="map">
+         <map key-type="java.lang.String" value-type="java.lang.Object"> <!-- 제네릭표현을 넣을수도 있음 -->
+            <entry>
+               <key><value>soap</value></key> <!-- key:문자열이기 때문에 value태그 사용 -->
+               <ref bean="soapHandler"/> <!-- 아래 명시한 soapHandler와 같은 식별자 기재 -->
+            </entry>
+            <entry>
+               <key><value>rest</value></key>
+               <ref bean="restHandler"/>
+            </entry>
+         </map>
+      </property>
+   </bean>
+   <bean name="soapHandler" class="kr.spring.ch11.SoapHandler"/>
+   <bean name="restHandler" class="kr.spring.ch11.RestHandler"/>
+   
+   
+   
+   	<!-- Set타입 프로퍼티 설정 -->
+   	<bean name="videoClient" class="kr.spring.ch12.VideoClient">
+   		<property name="subSet">
+   			<set>
+   				<value>10</value>
+   				<value>20</value>
+   			</set>
+   		</property>
+   	</bean>
+	
+	
+	
+	<!-- properties타입 프로퍼티 설정 -->
+	<bean name="bookClient" class="kr.spring.ch13.BookClient">
+		<property name="prop">
+			<props>
+				<prop key="server">192.168.0.1</prop> <!-- server의 ip -->
+				<prop key="connectionTimeout">5000</prop>
+			</props>
+		</property>
+	</bean>
 	
 </beans>
